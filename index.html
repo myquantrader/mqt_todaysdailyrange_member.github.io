@@ -1,0 +1,494 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>MQT_TodaysDailyRange – NinjaTrader 8 Indicator</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+body{
+  font-family:Segoe UI, Tahoma, sans-serif;
+  background:#0a0a0a;
+  color:#e0e0e0;
+  line-height:1.6;
+}
+.container{max-width:1200px;margin:0 auto;padding:0 20px}
+
+/* Header */
+header{
+  background:#000;
+  border-bottom:2px solid #00ff00;
+  padding:16px 0;
+}
+.brand{
+  display:flex;
+  align-items:center;
+  gap:16px;
+}
+.brand img{height:60px}
+.brand h1{
+  color:#00ff00;
+  font-size:1.45rem;
+  font-weight:700;
+}
+
+/* Hero */
+.hero{
+  padding:80px 0;
+  text-align:center;
+  background:linear-gradient(135deg,#000,#1a1a1a);
+  border-bottom:3px solid #00ff00;
+}
+.hero h2{
+  color:#00ff00;
+  font-size:2.6rem;
+  margin-bottom:18px;
+}
+.hero p{
+  max-width:1050px;
+  margin:0 auto 32px;
+  font-size:1.15rem;
+  color:#b0b0b0;
+}
+.cta-button{
+  display:inline-block;
+  background:#00ff00;
+  color:#000;
+  padding:14px 40px;
+  font-weight:800;
+  border-radius:5px;
+  text-decoration:none;
+  border:2px solid #00ff00;
+  transition:.25s;
+}
+.cta-button:hover{
+  background:#000;
+  color:#00ff00;
+  box-shadow:0 0 18px rgba(0,255,0,.4);
+}
+
+/* Section title */
+.section-title{
+  text-align:center;
+  color:#00ff00;
+  font-size:2.2rem;
+  margin-bottom:50px;
+  text-transform:uppercase;
+  letter-spacing:2px;
+}
+
+/* Features */
+.features{padding:60px 0;background:#0f0f0f}
+.feature-grid{
+  display:grid;
+  grid-template-columns:repeat(auto-fit,minmax(280px,1fr));
+  gap:30px;
+}
+.feature-card{
+  background:#1a1a1a;
+  border:1px solid #333;
+  border-radius:8px;
+  padding:28px;
+}
+.feature-card h3{color:#00ff00;margin-bottom:12px}
+.feature-card p{color:#b0b0b0}
+
+/* Screenshots */
+.screenshots{padding:60px 0;background:#000}
+.screenshot-grid{
+  display:grid;
+  grid-template-columns:repeat(auto-fit,minmax(380px,1fr));
+  gap:30px;
+}
+.screenshot-item{
+  background:#1a1a1a;
+  border:1px solid #333;
+  border-radius:8px;
+  padding:18px;
+}
+.screenshot-item img{
+  width:100%;
+  border-radius:6px;
+  margin-bottom:12px;
+}
+.screenshot-item h3{text-align:center;color:#00ff00}
+.screenshot-item p{text-align:center;color:#9a9a9a;font-size:.95rem}
+
+/* How it works */
+.how-it-works{padding:60px 0;background:#0f0f0f}
+.steps{
+  display:grid;
+  grid-template-columns:repeat(auto-fit,minmax(260px,1fr));
+  gap:30px;
+}
+.step{
+  background:#1a1a1a;
+  padding:28px;
+  border-left:4px solid #00ff00;
+  border-radius:8px;
+}
+.step-number{
+  width:40px;height:40px;
+  background:#00ff00;color:#000;
+  border-radius:50%;
+  text-align:center;
+  line-height:40px;
+  font-weight:800;
+  margin-bottom:12px;
+}
+.step h3{color:#00ff00;margin-bottom:8px}
+.step p{color:#b0b0b0}
+
+/* Indicator Settings (NEW) */
+.settings{padding:60px 0;background:#000}
+.table-wrap{
+  background:#1a1a1a;
+  border:1px solid #333;
+  border-radius:8px;
+  overflow:hidden;
+}
+table{width:100%;border-collapse:collapse}
+th,td{
+  padding:14px 14px;
+  border-bottom:1px solid #2a2a2a;
+  vertical-align:top;
+}
+th{
+  text-align:left;
+  color:#00ff00;
+  background:#111;
+  font-weight:800;
+}
+td{color:#cfcfcf}
+.note{
+  margin-top:14px;
+  color:#9a9a9a;
+  font-size:.95rem;
+}
+
+/* FAQ (NEW) */
+.faq{padding:60px 0;background:#0f0f0f}
+.faq-grid{
+  display:grid;
+  grid-template-columns:repeat(auto-fit,minmax(320px,1fr));
+  gap:24px;
+}
+.faq-item{
+  background:#1a1a1a;
+  border:1px solid #333;
+  border-radius:8px;
+  padding:22px;
+}
+.faq-item h3{color:#00ff00;margin-bottom:10px;font-size:1.05rem}
+.faq-item p{color:#b0b0b0}
+
+/* Footer */
+footer{
+  background:#000;
+  border-top:2px solid #00ff00;
+  padding:30px 0;
+  text-align:center;
+}
+footer p{color:#666}
+</style>
+</head>
+
+<body>
+
+<header>
+  <div class="container">
+    <div class="brand">
+      <img src="https://cdn.abacus.ai/images/d3c7f153-a68f-488d-9724-ceaf87bfc581.png">
+      <h1>MQT_TodaysDailyRange</h1>
+    </div>
+  </div>
+</header>
+
+<section class="hero">
+  <div class="container">
+    <h2>Today's True Range — Time‑Window Accurate</h2>
+    <p>
+      MQT_TodaysDailyRange tracks the current day's high, low, and total range
+      inside a user‑defined trading window. It supports overnight sessions,
+      real‑time tick updates, smart label placement, and optional window shading.
+    </p>
+    <a class="cta-button" href="#" onclick="alert('Add checkout URL');return false;">Download Now</a>
+  </div>
+</section>
+
+<section class="features">
+  <div class="container">
+    <h2 class="section-title">Key Features</h2>
+
+    <div class="feature-grid">
+      <div class="feature-card">
+        <h3>Custom Time Window</h3>
+        <p>Measure daily range only during selected session hours.</p>
+      </div>
+
+      <div class="feature-card">
+        <h3>Overnight Session Support</h3>
+        <p>Correct session anchoring across midnight.</p>
+      </div>
+
+      <div class="feature-card">
+        <h3>Live High & Low Lines</h3>
+        <p>High and low update on every tick.</p>
+      </div>
+
+      <div class="feature-card">
+        <h3>Range in Price & Ticks</h3>
+        <p>Displays both price range and tick distance.</p>
+      </div>
+
+      <div class="feature-card">
+        <h3>Smart Label Collision Avoidance</h3>
+        <p>Prevents labels from overlapping candles.</p>
+      </div>
+
+      <div class="feature-card">
+        <h3>Optional Time Window Shading</h3>
+        <p>Visual session window with adjustable opacity.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="screenshots">
+  <div class="container">
+    <h2 class="section-title">Chart Examples</h2>
+
+    <div class="screenshot-grid">
+      <div class="screenshot-item">
+        <img src="https://cdn.abacus.ai/images/82752b16-b16d-4ae5-9e56-976d7850a3e5.png">
+        <h3>Intraday Window Range</h3>
+        <p>High and low tracked inside the active session</p>
+      </div>
+
+      <div class="screenshot-item">
+        <img src="https://cdn.abacus.ai/images/d590d753-546c-424e-8599-3a28aa184181.png">
+        <h3>Full Session Context</h3>
+        <p>Range, labels, and session boundaries</p>
+      </div>
+
+      <div class="screenshot-item">
+        <img src="https://cdn.abacus.ai/images/046cf2f8-9e65-425e-b7af-6f66877b7763.png">
+        <h3>Overnight Session Example</h3>
+        <p>Correct handling of overnight trading windows</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="how-it-works">
+  <div class="container">
+    <h2 class="section-title">How It Works</h2>
+
+    <div class="steps">
+      <div class="step">
+        <div class="step-number">1</div>
+        <h3>Set Window</h3>
+        <p>Choose start and end times for the range.</p>
+      </div>
+
+      <div class="step">
+        <div class="step-number">2</div>
+        <h3>Anchor Session</h3>
+        <p>Automatically determines correct session date.</p>
+      </div>
+
+      <div class="step">
+        <div class="step-number">3</div>
+        <h3>Track Extremes</h3>
+        <p>Updates high and low inside the window.</p>
+      </div>
+
+      <div class="step">
+        <div class="step-number">4</div>
+        <h3>Render Visuals</h3>
+        <p>Draws lines, labels, and shaded window.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- =========================
+     Indicator Settings (NEW)
+     ========================= -->
+<section class="settings">
+  <div class="container">
+    <h2 class="section-title">Indicator Settings</h2>
+
+    <div class="table-wrap">
+      <table>
+        <thead>
+          <tr>
+            <th style="width:34%">Setting</th>
+            <th style="width:18%">Type</th>
+            <th style="width:18%">Typical Values</th>
+            <th>Description</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>Window Start Time</td>
+            <td>Time</td>
+            <td>HH:MM (e.g., 09:30)</td>
+            <td>Defines the beginning of the daily range measurement window.</td>
+          </tr>
+          <tr>
+            <td>Window End Time</td>
+            <td>Time</td>
+            <td>HH:MM (e.g., 16:00)</td>
+            <td>Defines the end of the daily range measurement window.</td>
+          </tr>
+          <tr>
+            <td>Overnight Session Mode</td>
+            <td>Boolean</td>
+            <td>On / Off</td>
+            <td>Enables correct session anchoring when the window crosses midnight.</td>
+          </tr>
+          <tr>
+            <td>Show High Line</td>
+            <td>Boolean</td>
+            <td>On / Off</td>
+            <td>Displays a horizontal line at the session high.</td>
+          </tr>
+          <tr>
+            <td>Show Low Line</td>
+            <td>Boolean</td>
+            <td>On / Off</td>
+            <td>Displays a horizontal line at the session low.</td>
+          </tr>
+          <tr>
+            <td>Show Range Labels</td>
+            <td>Boolean</td>
+            <td>On / Off</td>
+            <td>Displays text labels showing price range and tick distance.</td>
+          </tr>
+          <tr>
+            <td>Label Collision Avoidance</td>
+            <td>Boolean</td>
+            <td>On / Off</td>
+            <td>Automatically adjusts label placement to prevent overlap with price bars.</td>
+          </tr>
+          <tr>
+            <td>Show Window Shading</td>
+            <td>Boolean</td>
+            <td>On / Off</td>
+            <td>Adds a semi‑transparent background to visually highlight the active time window.</td>
+          </tr>
+          <tr>
+            <td>Shading Opacity</td>
+            <td>Numeric</td>
+            <td>10–50%</td>
+            <td>Controls the transparency level of the window shading.</td>
+          </tr>
+          <tr>
+            <td>Line Style / Width</td>
+            <td>Style</td>
+            <td>Solid / Dashed / Dotted</td>
+            <td>Customizes the appearance of high and low lines.</td>
+          </tr>
+          <tr>
+            <td>Color Settings</td>
+            <td>Style</td>
+            <td>Default / Custom</td>
+            <td>Controls colors for high line, low line, labels, and shading.</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <p class="note">
+      Note: The exact parameter names and defaults depend on your current build.
+      If you paste the indicator's NinjaTrader property section (or C# code), I can convert this into
+      exact names + default values (matching your code 1:1).
+    </p>
+  </div>
+</section>
+
+<!-- =========
+     FAQ (NEW)
+     ========= -->
+<section class="faq">
+  <div class="container">
+    <h2 class="section-title">FAQ</h2>
+
+    <div class="faq-grid">
+      <div class="faq-item">
+        <h3>How is this different from a standard daily high/low indicator?</h3>
+        <p>
+          Standard indicators measure the entire trading day. This indicator lets you define
+          a custom time window (e.g., 9:30–16:00) and only tracks the high/low inside that window.
+        </p>
+      </div>
+
+      <div class="faq-item">
+        <h3>Does it work for overnight sessions?</h3>
+        <p>
+          Yes—enable Overnight Session Mode to correctly anchor the window when it crosses midnight.
+          This is essential for instruments like ES or NQ with extended hours.
+        </p>
+      </div>
+
+      <div class="faq-item">
+        <h3>Will the high and low update in real time?</h3>
+        <p>
+          Yes—the indicator uses OnEachTick calculation, so the high and low lines update
+          continuously as new ticks arrive during the active window.
+        </p>
+      </div>
+
+      <div class="faq-item">
+        <h3>What does "smart label collision avoidance" do?</h3>
+        <p>
+          It automatically repositions labels to prevent them from overlapping with price bars,
+          keeping your chart clean and readable.
+        </p>
+      </div>
+
+      <div class="faq-item">
+        <h3>Can I use this on any timeframe?</h3>
+        <p>
+          Yes—it works on any intraday timeframe. The window is time‑based, not bar‑based,
+          so it will correctly track the high/low regardless of your chart's bar interval.
+        </p>
+      </div>
+
+      <div class="faq-item">
+        <h3>Does it repaint?</h3>
+        <p>
+          The high and low will update as new extremes are reached during the live session.
+          Once the window closes, those values are fixed for that day.
+        </p>
+      </div>
+
+      <div class="faq-item">
+        <h3>What's the purpose of the window shading?</h3>
+        <p>
+          It provides a visual reference for the active measurement window, making it easier
+          to see exactly when the indicator is tracking the high/low.
+        </p>
+      </div>
+
+      <div class="faq-item">
+        <h3>Can I display the range in both price and ticks?</h3>
+        <p>
+          Yes—when labels are enabled, the indicator shows both the price range (e.g., 50.00)
+          and the tick distance (e.g., 200 ticks) for quick reference.
+        </p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <div class="container">
+    <p>© 2026 myQuantrader.com — All Rights Reserved</p>
+  </div>
+</footer>
+
+</body>
+</html>
